@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ballsandlines</title>
+        <script src="main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.min.js"></script>
+    </head>
+    <body>
+        <style>
+            *{
+                padding:0;
+                margin:0;
+            }
+            canvas{
+                padding:0;
+                margin:0;
+            }
+        </style>
+<script>
+
+    let balls = [];
+function setup(){
+    createCanvas(window.innerWidth,window.innerHeight);
+    background(0)
+    for (let i = 0; i < width/20; i++) {
+        balls.push(new Ball(random(2,10)))
+        
+    }
+}
+function draw(){
+    background(255,50,100)
+    balls.forEach(ball => {
+        ball.update()
+        balls.forEach(b => {
+            if (dist(b.x, b.y, ball.x, ball.y) < 100){
+                stroke(255,100)
+                line(b.x, b.y, ball.x, ball.y)
+                noStroke()
+            }
+        })
+        ball.show()
+    });
+
+}
+
+
+
+class Ball{
+    constructor(r){
+        this.yoff = random(height)
+        this.xoff = random(width);
+        this.x = noise(this.xoff) * width;
+        this.y = noise(this.yoff) * height;
+        this.r = r
+
+    }
+    update(){
+        this.xoff += 0.002
+        this.yoff += 0.002
+
+        this.x = noise(this.xoff) * width;
+        this.y = noise(this.yoff) * height;
+
+
+    }
+    show(){
+        ellipse(this.x , this.y, this.r)
+    }
+}
+
+function mousePressed(){
+    balls.push(new Ball(random(2,10)))
+}
+</script>
+    </body>
+</html>
